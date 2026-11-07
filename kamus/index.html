@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kamus Bergambar · Virtual English Lab SMP</title><link rel="stylesheet" href="../shared/eng.css">
+<style>.flt{display:flex;gap:8px;flex-wrap:wrap;align-items:center;position:sticky;top:0;z-index:5;padding:10px 0;background:linear-gradient(var(--bg1) 75%,transparent)}
+.flt input{flex:1;min-width:200px}.flt button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+.vc a{font-size:.72rem;font-weight:800;color:var(--muted);text-decoration:none}
+.wod{display:grid;grid-template-columns:120px 1fr;gap:16px;align-items:center}@media (max-width:560px){.wod{grid-template-columns:1fr;text-align:center}}</style></head>
+<body>
+<div class="wrap">
+<section class="hero"><span class="chip">📚 Kamus Bergambar</span><h1>Semua kata dari <span class="em">Kelas VII–IX</span></h1><p class="sub">Cari kata dalam bahasa Inggris atau Indonesia. Ketuk kartu untuk mendengar pelafalannya.</p></section>
+<div class="card"><h2>🌟 Kata hari ini</h2><div class="wod" id="wod"></div></div>
+<div class="flt"><input class="txt" type="search" id="q" placeholder="🔍 Cari: proud, panti asuhan, volcano…" aria-label="Cari kata"><span id="fk"></span></div>
+<p class="muted" id="cnt"></p>
+<div class="vgrid" id="grid"></div>
+</div>
+<footer>Virtual English Lab SMP · Kamus Bergambar</footer>
+<script src="../kelas-7/data.js"></script><script>window.ALL=[window.GRADE];</script>
+<script src="../kelas-8/data.js"></script><script>ALL.push(window.GRADE);</script>
+<script src="../kelas-9/data.js"></script><script>ALL.push(window.GRADE);</script>
+<script src="../shared/eng.js"></script>
+<script>
+const {$,$$,esc}=ENG;
+const W=[]; const seen=new Set();
+ALL.forEach(G=>G.mods.forEach((M,i)=>M.vocab.forEach(v=>{ const k=v[1].toLowerCase(); if(seen.has(k)) return; seen.add(k); W.push({em:v[0],en:v[1],id:v[2],g:G.g,gn:G.name,u:i+1,f:'../kelas-'+G.g+'/'+M.f,ut:M.t}); })));
+W.sort((a,b)=>a.en.localeCompare(b.en));
+let fg=0;
+$('#fk').innerHTML=[['Semua',0],['VII',7],['VIII',8],['IX',9]].map(([r,g],i)=>`<button class="btn ghost ${i===0?'on':''}" data-g="${g}" style="padding:6px 12px">${i?'Kelas '+r:r}</button>`).join('');
+$$('#fk button').forEach(b=>b.onclick=()=>{ $$('#fk button').forEach(x=>x.classList.toggle('on',x===b)); fg=+b.dataset.g; render(); });
+function render(){ const q=$('#q').value.trim().toLowerCase(); const L=W.filter(w=>(!fg||w.g===fg)&&(!q||w.en.toLowerCase().includes(q)||w.id.toLowerCase().includes(q)));
+  $('#cnt').textContent=`${L.length} kata`;
+  $('#grid').innerHTML=L.map(w=>`<div class="vc" data-w="${esc(w.en)}" role="button" tabindex="0"><span class="em">${w.em}</span><b>${esc(w.en)}</b><small>${esc(w.id)}</small><a href="${w.f}" title="${esc(w.ut)}">${w.gn} · Unit ${w.u}</a></div>`).join('')||'<p>Tidak ada kata yang cocok.</p>';
+  $$('#grid .vc').forEach(c=>c.onclick=e=>{ if(e.target.closest('a')) return; ENG.say(c.dataset.w); c.classList.remove('pop'); void c.offsetWidth; c.classList.add('pop'); }); }
+$('#q').oninput=render; render();
+const d=new Date(), w=W[(d.getFullYear()*372+d.getMonth()*31+d.getDate())%W.length];
+$('#wod').innerHTML=`<div class="huge" style="text-align:center;font-size:4.5rem">${w.em}</div><div><div class="big">${esc(w.en)} ${ENG.sp(w.en)}</div><p>${esc(w.id)}</p><p class="muted">Dari ${w.gn}, Unit ${w.u}: <a href="${w.f}">${esc(w.ut)}</a></p></div>`;
+</script>
+<script src="../shared/nav.js"></script>
+</body></html>

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Arena Permainan · Virtual English Lab SMP</title><link rel="stylesheet" href="../shared/eng.css">
+<style>.games{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.games button{font:inherit;text-align:left;background:var(--card);border:2.5px solid var(--line);border-radius:20px;padding:14px;cursor:pointer;color:var(--ink)}
+.games button.on{border-color:var(--acc);box-shadow:0 0 0 4px color-mix(in srgb,var(--acc) 22%,transparent)}
+.games .ic{font-size:2.2rem}.games b{display:block;font-size:1.05rem}.games small{color:var(--muted)}
+.mem{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:520px;margin:auto}
+.mem button{aspect-ratio:1;font:inherit;font-weight:800;border-radius:14px;border:2.5px solid var(--line);background:var(--acc);color:#fff;font-size:1.6rem;cursor:pointer;padding:4px}
+.mem button.up{background:var(--card);color:var(--ink)}.mem button.up small{font-size:.8rem;display:block}.mem button.ok{background:var(--ok-soft);border-color:var(--ok);color:var(--ink)}
+@media (max-width:560px){.mem button{font-size:1.2rem}}</style></head>
+<body>
+<div class="wrap">
+<section class="hero"><span class="chip">🎮 Arena Permainan</span><h1>Main sambil <span class="em">mengulang kata & tata bahasa</span></h1><p class="sub">Pilih kelas, lalu pilih permainan. Kata diambil acak dari semua unit kelas yang dipilih.</p></section>
+<div class="card"><h2>1️⃣ Pilih kelas</h2><div class="row" id="ks"></div></div>
+<div class="card"><h2>2️⃣ Pilih permainan</h2><div class="games" id="gs"></div></div>
+<div class="card"><h2 id="gt">🎯 Permainan</h2><div id="ga"></div></div>
+</div>
+<footer>Virtual English Lab SMP · Arena Permainan</footer>
+<script src="../kelas-7/data.js"></script><script>window.ALL=[window.GRADE];</script>
+<script src="../kelas-8/data.js"></script><script>ALL.push(window.GRADE);</script>
+<script src="../kelas-9/data.js"></script><script>ALL.push(window.GRADE);</script>
+<script src="../grammar/data.js"></script><script src="../shared/eng.js"></script>
+<script>
+const {$,$$,esc,shuf,pick}=ENG;
+let K=new Set([7]), game='listen';
+$('#ks').innerHTML=ALL.map(G=>`<button class="btn ghost" data-g="${G.g}">${G.name}</button>`).join('');
+const paintK=()=>$$('#ks button').forEach(b=>{ const on=K.has(+b.dataset.g); b.className='btn '+(on?'':'ghost'); });
+$$('#ks button').forEach(b=>b.onclick=()=>{ const g=+b.dataset.g; if(K.has(g)&&K.size>1) K.delete(g); else K.add(g); paintK(); start(); }); paintK();
+const GAMES=[['listen','🎧','Dengar & Ketuk','Dengarkan kata, ketuk gambarnya.'],['memory','🃏','Kartu Memori','Cari pasangan gambar dan kata.'],['spell','🐝','Spelling Bee','Eja kata dari gambar dan suara.'],['build','🧩','Susun Kalimat','Susun kata menjadi kalimat.'],['grammar','🧠','Tata Bahasa Kilat','Soal isian tata bahasa acak dari semua lab.'],['speed','⚡','Kilat 60 Detik','Jawab sebanyak mungkin dalam 60 detik.']];
+$('#gs').innerHTML=GAMES.map(g=>`<button data-k="${g[0]}"><span class="ic">${g[1]}</span><b>${g[2]}</b><small>${g[3]}</small></button>`).join('');
+$$('#gs button').forEach(b=>b.onclick=()=>{ game=b.dataset.k; start(); $('#gt').scrollIntoView({behavior:'smooth',block:'start'}); });
+function pool(){ const V=[], S=[], GP=[], seen=new Set(); ALL.filter(G=>K.has(G.g)).forEach(G=>G.mods.forEach(M=>{ M.vocab.forEach(v=>{ if(!seen.has(v[1])){ seen.add(v[1]); V.push(v); } }); (M.labs||[]).forEach(L=>{ if(L.w==='build') S.push(...L.s); if(L.w==='gap') L.items.forEach(x=>{ if(!x.type) GP.push(x); }); }); }));
+  (window.GRAM||[]).filter(t=>K.has({VII:7,VIII:8,IX:9}[t.lvl])).forEach(t=>GP.push(...t.gap)); return {V,S,GP,g:Math.max(...K)}; }
+let timer=null;
+function start(){ clearInterval(timer); $$('#gs button').forEach(b=>b.classList.toggle('on',b.dataset.k===game)); const P=pool(), el=$('#ga'); const G={g:P.g};
+  $('#gt').textContent=GAMES.find(g=>g[0]===game).slice(1,3).join(' ');
+  if(game==='listen') ENG.W.listen(el,{items:P.V,rounds:10,label:true},{vocab:P.V},G);
+  else if(game==='spell') ENG.W.spell(el,{items:P.V},{vocab:P.V},G);
+  else if(game==='build') ENG.W.build(el,{s:shuf(P.S).slice(0,8)},{},G);
+  else if(game==='memory') memory(el,P.V);
+  else if(game==='grammar') ENG.W.gap(el,{items:shuf(P.GP).slice(0,12)},{},G);
+  else speed(el,P.V,G);
+}
+function memory(el,V){ const set=shuf(V.filter(v=>v[1].length<=14)).slice(0,6); let cards=shuf(set.flatMap((v,i)=>[{i,t:'em',v},{i,t:'w',v}])); let open=[], done=0, moves=0;
+  const draw=()=>{ el.innerHTML=`<p class="q">Buka dua kartu. Cocokkan gambar dengan katanya! <span class="muted">Langkah: ${moves}</span></p><div class="mem">${cards.map((c,k)=>`<button data-k="${k}" class="${c.ok?'ok up':open.includes(k)?'up':''}">${c.ok||open.includes(k)?(c.t==='em'?c.v[0]:'<small>'+esc(c.v[1])+'</small>'):'?'}</button>`).join('')}</div>`;
+    $$('.mem button',el).forEach(b=>b.onclick=()=>{ const k=+b.dataset.k; const c=cards[k]; if(c.ok||open.includes(k)||open.length===2) return; open.push(k); if(c.t==='w') ENG.say(c.v[1]); draw();
+      if(open.length===2){ moves++; const [a,b2]=open.map(x=>cards[x]); setTimeout(()=>{ if(a.i===b2.i&&a.t!==b2.t){ a.ok=b2.ok=true; done++; ENG.say('Great! '+a.v[1]); } open=[]; draw(); if(done===set.length){ el.insertAdjacentHTML('beforeend',`<div class="fb ok">🎉 Selesai dalam ${moves} langkah! <button class="btn" id="again">Main lagi</button></div>`); $('#again',el).onclick=()=>memory(el,V); } },800); } }); };
+  draw(); }
+function speed(el,V,G){ let t=60, sc=0, n=0;
+  el.innerHTML=`<div class="row"><span class="big">⏱️ <span id="tm">60</span> detik</span><span class="score">Benar: <span id="sc">0</span></span></div><div class="prog"><i id="tb" style="width:100%"></i></div><div id="sq"></div>`;
+  const next=()=>{ const q=ENG.gen[pick(['pic','mean','rev','listen'])]({vocab:V,phr:[]},G); const box=$('#sq',el); if(!box) return; box.innerHTML=`<div class="q">${q.p}</div>${q.say?`<button class="btn soft" data-say="${esc(q.say)}">🔊 Dengarkan</button>`:''}<div class="opts">${q.o.map((o,i)=>`<button class="opt" data-i="${i}">${o}</button>`).join('')}</div>`; if(q.say) ENG.say(q.say);
+    $$('.opt',box).forEach(b=>b.onclick=()=>{ if(t<=0) return; n++; const ok=+b.dataset.i===q.a; b.classList.add(ok?'good':'no'); if(ok){ sc++; $('#sc',el).textContent=sc; } setTimeout(next,ok?250:700); }); };
+  next();
+  timer=setInterval(()=>{ t--; const tm=$('#tm',el); if(!tm){ clearInterval(timer); return; } tm.textContent=t; $('#tb',el).style.width=(t/60*100)+'%'; if(t<=0){ clearInterval(timer); const best=Math.max(sc,ENG.store.get('speed')||0); ENG.store.set('speed',best);
+    $('#sq',el).innerHTML=`<div class="stage" style="text-align:center"><div class="huge">⚡</div><div class="big">${sc} jawaban benar dari ${n}!</div><p class="muted">Rekor di perangkat ini: ${best}</p><button class="btn" id="sa">Main lagi</button></div>`; $('#sa',el).onclick=()=>speed(el,V,G); } },1000); }
+start();
+</script>
+<script src="../shared/nav.js"></script>
+</body></html>

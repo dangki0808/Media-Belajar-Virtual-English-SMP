@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Virtual English Lab SMP · Kelas VII–IX</title><link rel="stylesheet" href="shared/eng.css">
+<style>
+body{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72'%3E%3Cg fill='none' stroke='%232e3a8c' stroke-opacity='.10' stroke-width='2.5'%3E%3Cellipse cx='36' cy='18' rx='9' ry='15'/%3E%3Cellipse cx='36' cy='54' rx='9' ry='15'/%3E%3Cellipse cx='18' cy='36' rx='15' ry='9'/%3E%3Cellipse cx='54' cy='36' rx='15' ry='9'/%3E%3Ccircle cx='36' cy='36' r='3'/%3E%3Ccircle cx='0' cy='0' r='5'/%3E%3Ccircle cx='72' cy='0' r='5'/%3E%3Ccircle cx='0' cy='72' r='5'/%3E%3Ccircle cx='72' cy='72' r='5'/%3E%3C/g%3E%3C/svg%3E"),radial-gradient(900px 600px at 100% 0%,#fbd6c4,transparent 65%),radial-gradient(800px 600px at 0% 100%,#cfe8f3,transparent 65%),linear-gradient(160deg,#eef0fb,#fbf7f2)}
+@media (prefers-color-scheme:dark){body{background-image:radial-gradient(900px 600px at 100% 0%,#3a2418,transparent 65%),radial-gradient(800px 600px at 0% 100%,#14224a,transparent 65%),linear-gradient(160deg,#141a33,#1b1730)}}
+.hub{display:grid;grid-template-columns:1.3fr 1fr;gap:24px;align-items:center;padding:28px 0 8px}
+.hub h1{font-size:clamp(2rem,5.5vw,3.3rem);margin:.3em 0}
+.hub h1 em{font-style:normal;background:linear-gradient(90deg,#2e3a8c,#e8603c,#f2a541);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat{background:var(--card);border-radius:26px;padding:18px;box-shadow:var(--shadow);border:1px solid var(--line)}
+.stat .n{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat .n div{background:color-mix(in srgb,var(--sun) 16%,var(--card));border-radius:18px;padding:12px}
+.stat b{display:block;font-size:1.8rem;line-height:1.1}
+.stat small{color:var(--muted);font-weight:700}
+.grades{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin:16px 0}
+.gc{display:block;text-decoration:none;color:var(--ink);background:var(--card);border-radius:26px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--line);transition:transform .15s}
+.gc:hover{transform:translateY(-5px)}
+.gc .sw{height:118px;padding:16px;display:flex;justify-content:space-between;align-items:flex-start;color:#2b2140}
+.gc .sw b{font-size:1.6rem}.gc .sw .ic{font-size:2.8rem}
+.gc .bd{padding:14px 16px}
+.gc .bd p{margin:.2em 0 .5em;color:var(--muted);font-size:.92rem}
+.feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.feat a{text-decoration:none;color:var(--ink);border-radius:24px;padding:18px;display:block;border:1px solid var(--line);box-shadow:var(--shadow)}
+.feat .ic{font-size:2.4rem}
+@media (max-width:820px){.hub{grid-template-columns:1fr}}
+</style></head>
+<body>
+<div class="wrap">
+<section class="hub"><div><span class="chip">Virtual English Lab · SMP Kelas VII–IX · Kurikulum Merdeka</span>
+ <h1>Berbahasa Inggris dengan <em>teks, suara, dan tantangan nyata.</em></h1>
+ <p class="sub">Setiap unit dimulai dari dialog remaja Indonesia, dilengkapi kosakata bersuara, tata bahasa ringkas, dua lab interaktif (teks, kartu, detektif, wawancara), latihan tanpa batas, dan kuis. Ada juga Tryout untuk persiapan ujian. Semua berjalan tanpa internet.</p>
+ <div class="row"><a class="btn" href="#kelas">📚 Pilih kelas</a><a class="btn soft" href="kamus/index.html">🔍 Kamus Bergambar</a><a class="btn ghost" href="grammar/index.html">🧩 Grammar Lab</a><a class="btn ghost" href="arena/index.html">🎮 Arena</a><a class="btn ghost" href="tryout/index.html">📝 Tryout</a></div></div>
+ <div class="stat"><span class="chip" style="background:#2e3a8c">Ringkasan di perangkat ini</span><div class="n" style="margin-top:12px"><div><b id="nu">24</b><small>unit + 18 topik grammar</small></div><div><b id="nw">0</b><small>kata bergambar</small></div><div><b id="nd">0</b><small>kuis selesai</small></div><div><b id="na">–</b><small>rata-rata nilai</small></div></div></div>
+</section>
+<h2 id="kelas" style="margin-top:20px">Pilih kelas</h2>
+<div class="grades" id="grades"></div>
+<div class="feat">
+ <a href="grammar/index.html" style="background:color-mix(in srgb,#0b6e69 18%,var(--card))"><span class="ic">🧩</span><h3>Grammar Lab</h3><p class="muted">18 topik tata bahasa: peta tense, rumus, pola +/−/?, cari kesalahan, dan kuis.</p></a>
+ <a href="kamus/index.html" style="background:color-mix(in srgb,#f2a541 30%,var(--card))"><span class="ic">📚</span><h3>Kamus</h3><p class="muted" id="kw">Semua kata Kelas VII–IX dengan suara.</p></a>
+ <a href="arena/index.html" style="background:color-mix(in srgb,#0f766e 18%,var(--card))"><span class="ic">🎮</span><h3>Arena Permainan</h3><p class="muted">Kartu memori, Spelling Bee, susun kalimat, tata bahasa kilat, dan kuis 60 detik.</p></a>
+ <a href="tryout/index.html" style="background:color-mix(in srgb,#2e3a8c 16%,var(--card))"><span class="ic">📝</span><h3>Tryout & Olimpiade</h3><p class="muted">Paket soal pilihan ganda per kelas, campuran VII–IX, dan soal tantangan olimpiade.</p></a>
+ <a href="#guru" style="background:color-mix(in srgb,#e8603c 15%,var(--card))"><span class="ic">👩‍🏫</span><h3>Panduan Guru</h3><p class="muted">Cara memakai paket ini di kelas dan di rumah.</p></a>
+</div>
+<div class="card" id="guru"><h2>👩‍🏫 Cara memakai di kelas</h2><ol>
+ <li>Ekstrak ZIP, lalu buka <b>index.html</b> ini di browser (Chrome disarankan). Tidak perlu internet.</li>
+ <li>Suara memakai pembaca teks bawaan perangkat. Jika tidak ada suara, aktifkan suara bahasa Inggris di pengaturan <i>Text-to-speech</i> HP/laptop.</li>
+ <li>Alur satu pertemuan: <b>📖 Dialog</b> (putar, tirukan, bermain peran) → <b>kosakata & ungkapan</b> → <b>💡 tata bahasa</b> → dua <b>lab</b> berpasangan/kelompok → <b>✏️ Latihan</b> → <b>🏆 Kuis</b>.</li>
+ <li>Lab <i>Kartu/Brosur</i> cocok untuk tugas menulis: siswa menyusun, membacakan, lalu menyalin versinya sendiri di buku.</li>
+ <li>Buka <b>🧩 Grammar Lab</b> saat siswa butuh penjelasan tata bahasa lebih dalam; setiap unit juga menautkan topik grammar yang terkait.</li>
+ <li>Gunakan <b>📝 Tryout</b> di akhir semester atau menjelang asesmen; pembahasan muncul setelah selesai.</li>
+ <li>Nilai kuis tersimpan di perangkat masing-masing siswa.</li></ol>
+ <p class="muted">Urutan topik mengikuti buku Bahasa Inggris SMP di folder bahan: Kelas VII <i>When English Rings a Bell</i>, Kelas VIII <i>When English Rings a Bell</i>, dan Kelas IX <i>Think Globally Act Locally</i>, dengan bab yang berdekatan digabung menjadi 8 unit per kelas. Dialog, teks, dan soal ditulis ulang dengan latar Indonesia (termasuk Sumbawa).</p>
+ <button class="btn ghost" id="rs">Hapus semua nilai di perangkat ini</button></div>
+</div>
+<footer>Virtual English Lab SMP · Kelas VII–IX · Think globally, speak confidently!</footer>
+<script src="kelas-7/data.js"></script><script>window.ALL=[window.GRADE];</script>
+<script src="kelas-8/data.js"></script><script>ALL.push(window.GRADE);</script>
+<script src="kelas-9/data.js"></script><script>ALL.push(window.GRADE);</script>
+<script src="shared/eng.js"></script>
+<script>
+const SW={7:'linear-gradient(135deg,#bfe6f5,#ffd2bd,#ffe7a8)',8:'linear-gradient(135deg,#d3ecb4,#dccdff,#ffe7b0)',9:'linear-gradient(135deg,#f8c4cf,#bfe9df,#ffdcb3)'};
+const IC={7:'🌊',8:'🌿',9:'🌏'};
+function render(){ let tw=0,d=0,s=0;
+  document.getElementById('grades').innerHTML=ALL.map(G=>{ let gd=0,gs=0; G.mods.forEach((M,i)=>{ const b=ENG.store.get('e'+G.g+'m'+(i+1)); tw+=M.vocab.length; if(b!=null){ gd++; gs+=b; } }); d+=gd; s+=gs;
+    return `<a class="gc" href="kelas-${G.g}/index.html"><div class="sw" style="background:${SW[G.g]}"><div><b>${G.name}</b><div style="font-weight:800">${G.theme} · ${G.phase}</div></div><span class="ic">${IC[G.g]}</span></div>
+      <div class="bd"><b>${G.tag}</b><p>${G.mods.map(M=>M.t).join(' · ')}</p><div class="row" style="margin:0"><span class="muted" style="font-weight:800">${gd}/${G.mods.length} kuis${gd?' · rata-rata '+Math.round(gs/gd):''}</span></div><div class="prog"><i style="width:${gd/G.mods.length*100}%"></i></div></div></a>`; }).join('');
+  document.getElementById('nw').textContent=tw; document.getElementById('nd').textContent=d; document.getElementById('na').textContent=d?Math.round(s/d):'–'; document.getElementById('kw').textContent=`${tw} kata Kelas VII–IX dengan suara, bisa dicari dalam bahasa Inggris atau Indonesia.`; }
+render(); window.addEventListener('pageshow',render);
+document.getElementById('rs').onclick=()=>{ if(confirm('Hapus semua nilai kuis, tryout, dan rekor Arena di perangkat ini?')){ try{ Object.keys(localStorage).filter(k=>k.startsWith('engsmp:')).forEach(k=>localStorage.removeItem(k)); }catch(e){} render(); } };
+</script>
+<script src="shared/nav.js"></script>
+</body></html>
